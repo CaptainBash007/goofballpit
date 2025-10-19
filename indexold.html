@@ -1,1 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goofball Pit</title>
+    <link rel="icon" type="image/png" href="https://didyougetherefromthebitlylink.neocities.org/goofballgames.png">
+    <style>
+        @font-face {
+            font-family: 'Mojangles';
+            src: url('Mojangles.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        .particle {
+            pointer-events: none;
+            position: fixed;
+            background: #007bff;
+            border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            animation: explode 0.8s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url('https://didyougetherefromthebitlylink.neocities.org/goofballgames.png'),
+                url('https://didyougetherefromthebitlylink.neocities.org/goofballgames.png'),
+                url('https://didyougetherefromthebitlylink.neocities.org/goofballgames.png');
+            background-position: 
+                0 0,
+                60px 30px,
+                30px 60px;
+            background-size: 120px 120px;
+            background-repeat: repeat;
+            opacity: 0.025;
+            pointer-events: none;
+            z-index: -1;
+            filter: grayscale(60%) brightness(160%);
+        }
+        
+        html, body {
+            overflow-x: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f5f5f5;
+            position: relative;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #181a1b;
+            color: #e0e0e0;
+        }
+        body.dark-mode .container {
+            background-color: #23272a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .site-title {
+            color: #f5f5f5;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.4), 5px 5px 20px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .alert-inline {
+            background: #b71c1c;
+            color: #fff;
+        }
+        body.dark-mode .main-buttons .button,
+        body.dark-mode .button {
+            background: linear-gradient(180deg, #3a3a3a 0%, #23272a 100%);
+            color: #fff;
+            box-shadow: 0 8px 0 #111, 0 10px 15px rgba(0,0,0,0.6), inset 0 2px 0 rgba(255,255,255,0.08), inset 0 -2px 0 rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+        }
+        body.dark-mode .button:hover {
+            background: linear-gradient(180deg, #444 0%, #2c2f34 100%);
+        }
+        body.dark-mode .feedback-button {
+            background: #23272a;
+            color: #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        body.dark-mode #countdownTimer {
+            background: rgba(30,30,30,0.7);
+            color: #fff;
+        }
+        body.dark-mode a { color: #90caf9; }
+        body.dark-mode .explain-toggle .label { color: #90caf9; }
+        body.dark-mode .explain-toggle .full { background: #23272a; color: #e0e0e0; }
+        body.dark-mode .iframe-footer {
+            background-color: #23272a !important;
+            color: #999 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+        }
+    /* removed stray closing brace that broke CSS */
+        .site-title {
+            text-align: center;
+            color: #222;
+            margin-bottom: 16px;
+            font-size: 4em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 
+                3px 3px 0 rgba(0,0,0,0.1),
+                5px 5px 20px rgba(0,0,0,0.15);
+            line-height: 1.2;
+        }
+        .title-image {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 300px;
+            height: auto;
+        }
+        .container {
+            background-color: white;
+            padding: 30px 30px 0 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .about-section {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .alert-inline {
+            font-weight: bold;
+            background: #d32f2f;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: block;
+            width: fit-content;
+            margin: 0 auto 32px;
+            text-align: center;
+        }
+        /* expandable explanation (morphing toggle) */
+        .explain-toggle {
+            margin-top: 6px;
+            margin-bottom: 0;
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+        .explain-toggle:focus { outline: none; }
+        .explain-toggle .label,
+        .explain-toggle .full {
+            display: inline-block;
+            transition: opacity 0.28s ease, transform 0.28s ease;
+            vertical-align: middle;
+        }
+        .explain-toggle .label {
+            font-weight: 600;
+            text-decoration: underline;
+            color: inherit;
+        }
+        .explain-toggle .full {
+            opacity: 0;
+            transform: translateY(8px);
+            max-width: 520px;
+            text-align: center;
+            display: block;
+            max-height: 0;
+            overflow: hidden;
+            overflow-y: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            transition: max-height 0.32s ease, opacity 0.28s ease, transform 0.28s ease;
+        }
+        .explain-toggle .full::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .explain-toggle.open .label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .explain-toggle.open .full {
+            opacity: 1;
+            transform: translateY(0);
+            /* when open, max-height is set by JS to the scrollHeight for smooth, content-sized expansion */
+        }
+        /* Modern flat button styles */
+        .main-buttons {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .main-buttons .button {
+            flex: 1 1 0;
+            min-width: 220px;
+            max-width: 100%;
+            height: 100px;
+            /* Ensure text is centered vertically */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 48px;
+            margin: 10px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            background: linear-gradient(180deg, #ff6b9d 0%, #c239b3 100%);
+            box-shadow: 
+                0 8px 0 #8b2a7a,
+                0 10px 15px rgba(0,0,0,0.3),
+                inset 0 2px 0 rgba(255,255,255,0.3),
+                inset 0 -2px 0 rgba(0,0,0,0.2);
+            transition: transform 0.1s, box-shadow 0.1s;
+            font-size: 2em;
+            font-weight: 700;
+            border: none;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+            position: relative;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: linear-gradient(180deg, #ff7dad 0%, #d049c3 100%);
+            box-shadow: 
+                0 8px 0 #8b2a7a,
+                0 12px 20px rgba(0,0,0,0.35),
+                inset 0 2px 0 rgba(255,255,255,0.4),
+                inset 0 -2px 0 rgba(0,0,0,0.2);
+        }
+        .button:active {
+            transform: translateY(4px);
+            box-shadow: 
+                0 4px 0 #8b2a7a,
+                0 6px 10px rgba(0,0,0,0.3),
+                inset 0 2px 0 rgba(255,255,255,0.3),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
+        }
+        .feedback-button {
+            font-size: 0.8em;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: #e0e3e7;
+            color: #444;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            margin-top: 16px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            border: none;
+            opacity: 0.85;
+            transition: all 0.32s cubic-bezier(.2,.9,.2,1);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            min-width: 160px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .feedback-button .embed {
+            display: none;
+            width: 320px;
+            max-height: 0;
+            min-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.32s cubic-bezier(.2,.9,.2,1), opacity 0.32s;
+        }
+        .feedback-button.open {
+            padding: 12px 16px 16px 16px;
+        }
+        .feedback-button.open .embed {
+            display: block;
+            max-height: 400px;
+            min-height: 220px;
+            opacity: 1;
+        }
+        .feedback-button .label {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 0;
+            font-weight: 600;
+            transition: margin-bottom 0.32s cubic-bezier(.2,.9,.2,1);
+        }
+        .feedback-button.open .label {
+            margin-bottom: 12px;
+        }
+        /* .feedback-button.open .label { opacity: 0; } -- removed so label always visible */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://didyougetherefromthebitlylink.neocities.org/goofballgames.png" alt="Goofball Games Logo" class="title-image">
+    <!-- The logo image above is used as the dark mode toggle -->
+    <h1 class="site-title">Goofball PIT</h1>
+        
+        <div class="about-section" style="text-align:center;">
+            <p class="alert-inline">⚠️ USE/BOOKMARK "bit.ly/goofballgames" TO GET BACK HERE! ⚠️</p>
+            <div id="releaseCountdown" style="margin-bottom:12px;">
+                <div style="background: linear-gradient(135deg, #e3eaf7 0%, #b6cbe6 100%); border-radius: 18px; box-shadow: 0 4px 18px rgba(31,142,241,0.10); padding: 20px 32px; margin: 0 auto; max-width: 700px; text-align:center;">
+                    <div id="countdownTimer" style="font-family:'Mojangles', Arial, sans-serif; font-size:2.2em; font-weight:500; color:#111; background:rgba(255,255,255,0.7); border-radius:10px; padding:12px 0; box-shadow:0 2px 8px rgba(31,142,241,0.08); margin:0 auto; width:96%; text-align:center; letter-spacing:2px;"></div>
+                </div>
+            </div>
+            <div tabindex="0" class="explain-toggle" id="explainToggle" aria-expanded="false" role="button">
+                <span class="label">What is this?</span>
+                <span class="full">
+                  Connor and I have been working on Goofball Games V2 for a while, and the beta is gonna drop on monday. please leave your feedback on the form when you get access. make sure you always use the bit.ly link, it leads here, and the most recent version will be linked to a button on this page<br>
+                  <br>You can also get to Puffpaff Shop here. it probably wont be launched with the beta on monday, but ill be working on it. there will be some new drops on the menu though, so make sure you ask connor about whats available<br>
+                  <br><img src="https://png.pngtree.com/png-clipart/20230810/original/pngtree-cartoon-monument-with-ancient-inscription-and-rest-in-peace-text-on-gravestone-vector-picture-image_10227408.png" alt="Gravestone" style="max-width:200px;height:auto;margin:10px 0;border-radius:8px;"><br>
+                  the og Goofball games V1 just recently got deleted by the district, so if you know any goof addicts, tell them the news. RIP Goofball games 😘✌️</span>
+            </div>
+        </div>
+
+        <div class="button-container" style="margin-top: 0;">
+            <div class="main-buttons">
+                <!-- Buttons removed as requested -->
+            </div>
+            
+            <!-- Feedback/blocked toggle -->
+            <!-- Feedback/blocked toggle removed -->
+        </div>
+        
+        <div style="text-align: center; font-size: 0.7em; color: #999; padding: 12px 0; margin-top: 8px;">
+            Made by Connor and Ethan
+        </div>
+    </div>
+    
+    <!-- Chat iframe below the white container -->
+    <div style="margin-top: 20px;">
+        <iframe src="https://www3.cbox.ws/box/?boxid=3549730&boxtag=aczEO4" width="100%" height="350" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto" style="border-radius: 10px 10px 0 0; display: block;"></iframe>
+        <div class="iframe-footer" style="background-color: white; border-radius: 0 0 10px 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; font-size: 0.8em; color: #666; padding: 12px 0;">
+            if this is abused ill have to get rid of it
+        </div>
+    </div>
+    
+    <script>
+        // Countdown to 8:30AM 10/20/25
+        (function(){
+            function updateCountdown() {
+                const target = new Date('2025-10-20T08:30:00');
+                const now = new Date();
+                let diff = target - now;
+                if (diff < 0) diff = 0;
+                const days = Math.floor(diff / (1000*60*60*24));
+                const hours = Math.floor((diff / (1000*60*60)) % 24);
+                const mins = Math.floor((diff / (1000*60)) % 60);
+                const secs = Math.floor((diff / 1000) % 60);
+                let out = '';
+                    out += `<span style="font-size:1.1em;margin-right:2px;">${days}</span><span style="font-size:0.7em;margin-right:8px;">d</span>`;
+                    out += `<span style="font-size:1.1em;margin-right:2px;">${hours.toString().padStart(2,'0')}</span><span style="font-size:0.7em;margin-right:8px;">h</span>`;
+                    out += `<span style="font-size:1.1em;margin-right:2px;">${mins.toString().padStart(2,'0')}</span><span style="font-size:0.7em;margin-right:8px;">m</span>`;
+                    out += `<span style="font-size:1.1em;">${secs.toString().padStart(2,'0')}</span><span style="font-size:0.7em;">s</span>`;
+                document.getElementById('countdownTimer').innerHTML = out;
+            }
+            if (document.getElementById('countdownTimer')) {
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            }
+        })();
+
+        // Dark mode toggle on logo click
+        (function(){
+            const logo = document.querySelector('.title-image');
+            if (!logo) return;
+            logo.style.cursor = 'pointer';
+            logo.title = 'Toggle dark mode';
+            logo.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                // Optionally, save preference
+                if (window.localStorage) {
+                    if (document.body.classList.contains('dark-mode')) {
+                        localStorage.setItem('goofball-dark', '1');
+                    } else {
+                        localStorage.removeItem('goofball-dark');
+                    }
+                }
+            });
+            // On load, restore preference
+            if (window.localStorage && localStorage.getItem('goofball-dark')) {
+                document.body.classList.add('dark-mode');
+            }
+        })();
+        (function(){
+            const toggle = document.getElementById('explainToggle');
+            if (!toggle) return;
+            const label = toggle.querySelector('.label');
+            const full = toggle.querySelector('.full');
+            function setOpen(open){
+                toggle.classList.toggle('open', open);
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                if (open) {
+                    // set max-height to content height for smooth expansion
+                    full.style.maxHeight = full.scrollHeight + 'px';
+                } else {
+                    full.style.maxHeight = '0px';
+                }
+            }
+            toggle.addEventListener('click', ()=> setOpen(!toggle.classList.contains('open')));
+            toggle.addEventListener('keydown', (e)=>{
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setOpen(!toggle.classList.contains('open'));
+                }
+            });
+        })();
+    </script>
+    <script>
+        (function(){
+            const toggle = document.getElementById('feedbackToggle');
+            if (!toggle) return;
+            const label = toggle.querySelector('.label');
+            const embed = toggle.querySelector('.embed');
+            function setOpen(open){
+                toggle.classList.toggle('open', open);
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                if (open) {
+                    embed.style.display = 'block';
+                    // Wait for display:block to apply, then animate to full height
+                    setTimeout(() => {
+                        embed.style.maxHeight = embed.scrollHeight + 'px';
+                        embed.style.opacity = '1';
+                    }, 10);
+                } else {
+                    embed.style.maxHeight = '0px';
+                    embed.style.opacity = '0';
+                    setTimeout(()=>{embed.style.display='none';}, 320);
+                }
+            }
+            toggle.addEventListener('click', ()=> setOpen(!toggle.classList.contains('open')));
+            toggle.addEventListener('keydown', (e)=>{
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setOpen(!toggle.classList.contains('open'));
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
 
