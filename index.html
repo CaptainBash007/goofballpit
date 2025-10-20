@@ -1,184 +1,637 @@
-<!doctype html>
-<header id="header">
-    <div class="left-half">
-        <nav>
-            <ul>
-                 
-                <a class="nav-button-logo" href="index.html">Goofball Games<img src="goofballgames.png" alt="Goofball Games Logo" class="logo-img" width="200" height="200"></a></li>
-                <li><a class="nav-button" href="shop.html">Shop</a></li>
-                <li><a class="nav-button" href="leaderboard.html">Pirate Cash Leaderboard</a></li>
-                <li><a class="nav-button" href="contact.html">Suggestions/Feedback</a></li>
-                <li><a class="nav-button" href="about.html">About</a></li>
-                
-            </ul>
-        </nav>
-    </div>
-    <div class="right-half">
-        <a class="news-box" >
-            
-        </a>
-    </div>
-</header>
- <!-- Unified alert + bookmark container -->
- <div class="bookmark-alert" id="bookmark-wrap" role="button" tabindex="0" data-link="https://bit.ly/goofballgames" aria-label="Copy bookmark link">
-     <span class="alert-icon emoji" aria-hidden="true">⚠️</span>
-     <span class="alert-prefix">USE /</span>
-     <span class="bookmark-text">BOOKMARK "<span id="bookmark-link">bit.ly/goofballgames</span>" TO GET BACK HERE</span>
-     <span class="alert-icon emoji" aria-hidden="true">⚠️</span>
- </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goofball Pit</title>
+    <link rel="icon" type="image/png" href="https://didyougetherefromthebitlylink.neocities.org/goofballgames.png">
+    <style>
+        @font-face {
+            font-family: 'Mojangles';
+            src: url('Mojangles.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        .particle {
+            pointer-events: none;
+            position: fixed;
+            background: #007bff;
+            border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            animation: explode 0.8s ease-out forwards;
+        }
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
 
-        <title>Untitled document - Google Docs</title>
-
-        <!-- Load external CSS styles -->
-        <link rel="stylesheet" href="styles.css">
-
-    </head>
-
-    <body class="index-page">
-
-        <div id="floating-text">
-    <a href="shop.html">Funded by Puffpaff Shop</a>
-</div>
-
-    
-    <div id="header-placeholder"></div>
-
-    <script src="header.js"></script>
-
-    <div class="content">
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url('https://didyougetherefromthebitlylink.neocities.org/goofballgames.png'),
+                url('https://didyougetherefromthebitlylink.neocities.org/goofballgames.png'),
+                url('https://didyougetherefromthebitlylink.neocities.org/goofballgames.png');
+            background-position: 
+                0 0,
+                60px 30px,
+                30px 60px;
+            background-size: 120px 120px;
+            background-repeat: repeat;
+            opacity: 0.025;
+            pointer-events: none;
+            z-index: -1;
+            filter: grayscale(60%) brightness(160%);
+        }
         
-    </div>
-    <nav class="nav-bar">
-            <div class="nav-primary">
-                <!-- Add your own game button FIRST -->
-            <a class="nav-button add-game-btn" href="javascript:void(0)" id="add-game-btn" data-no-votes>+ Add your own game</a>
+        html, body {
+            overflow-x: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f5f5f5;
+            position: relative;
+            transition: background 0.3s, color 0.3s;
+        }
 
-                <a  class="nav-button" href="test.html">
-            A-Z Games
-            <img class="index-button-image" src="azgames.png" alt="A-Z Games Logo" class="logo-img_nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
+        body.dark-mode {
+            background-color: #181a1b;
+            color: #e0e0e0;
+        }
+        body.dark-mode .container {
+            background-color: #23272a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .site-title {
+            color: #f5f5f5;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.4), 5px 5px 20px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .alert-inline {
+            background: #b71c1c;
+            color: #fff;
+        }
+        body.dark-mode .main-buttons .button,
+        body.dark-mode .button {
+            background: linear-gradient(180deg, #3a3a3a 0%, #23272a 100%);
+            color: #fff;
+            box-shadow: 0 8px 0 #111, 0 10px 15px rgba(0,0,0,0.6), inset 0 2px 0 rgba(255,255,255,0.08), inset 0 -2px 0 rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+        }
+        body.dark-mode .button:hover {
+            background: linear-gradient(180deg, #444 0%, #2c2f34 100%);
+        }
+        body.dark-mode .button:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #111, 0 6px 10px rgba(0,0,0,0.6), inset 0 2px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.3);
+        }
+        body.dark-mode .feedback-button {
+            background: #23272a;
+            color: #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        /* Ensure embed content in the feedback toggle respects dark mode */
+        body.dark-mode .feedback-button .embed {
+            color: #e0e0e0;
+            background: transparent;
+        }
+        body.dark-mode .feedback-button .embed div {
+            color: inherit !important;
+        }
+        body.dark-mode #countdownTimer {
+            background: rgba(30,30,30,0.7);
+            color: #fff;
+        }
+        body.dark-mode a { color: #90caf9; }
+        body.dark-mode .explain-toggle .label { color: #90caf9; }
+        body.dark-mode .explain-toggle .full { background: #23272a; color: #e0e0e0; }
+    /* removed stray closing brace that broke CSS */
+        /* During theme switch, avoid animating button border (box-shadow) */
+        body.theme-switch .button {
+            transition: transform 0.1s, background 0.3s, color 0.3s;
+        }
+        .site-title {
+            text-align: center;
+            color: #222;
+            margin-bottom: 16px;
+            font-size: 4em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 
+                3px 3px 0 rgba(0,0,0,0.1),
+                5px 5px 20px rgba(0,0,0,0.15);
+            line-height: 1.2;
+        }
+        .title-image {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 300px;
+            height: auto;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .title-image:hover {
+            transform: scale(1.05);
+        }
+        .container {
+            background-color: white;
+            padding: 30px 30px 0 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .about-section {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .alert-inline {
+            font-weight: bold;
+            background: #d32f2f;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: block;
+            width: fit-content;
+            margin: 0 auto 32px;
+            text-align: center;
+        }
+        /* expandable explanation (morphing toggle) */
+        .explain-toggle {
+            /* Give equal breathing room above and below */
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+        /* Space between the buttons/blocked toggle group and the explain section */
+        .button-container { margin-bottom: 20px; }
+        .explain-toggle:focus { outline: none; }
+        .explain-toggle .label,
+        .explain-toggle .full {
+            display: inline-block;
+            transition: opacity 0.28s ease, transform 0.28s ease;
+            vertical-align: middle;
+        }
+        .explain-toggle .label {
+            font-weight: 600;
+            text-decoration: underline;
+            color: inherit;
+            position: relative;
+            padding: 0 16px;
+        }
+        /* Hover/focus arrow indicator for expandable toggles */
+        .explain-toggle .label::after,
+        .feedback-toggle .label::after {
+            content: '▾';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            text-decoration: none;
+            pointer-events: none;
+        }
+        .explain-toggle:hover .label::after,
+        .explain-toggle:focus-visible .label::after,
+        .feedback-toggle:hover .label::after,
+        .feedback-toggle:focus-visible .label::after {
+            opacity: 0.9;
+            transform: translateY(-50%);
+        }
+        /* Keep indicator visible when open; rotate to suggest collapse */
+        .explain-toggle.open .label::after,
+        .feedback-toggle.open .label::after {
+            opacity: 0.9;
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .explain-toggle .full {
+            opacity: 0;
+            transform: translateY(8px);
+            max-width: 520px;
+            text-align: center;
+            display: block;
+            max-height: 0;
+            overflow: hidden;
+            overflow-y: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            transition: max-height 0.32s ease, opacity 0.28s ease, transform 0.28s ease;
+        }
+        .explain-toggle .full::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .explain-toggle.open .label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .explain-toggle.open .full {
+            opacity: 1;
+            transform: translateY(0);
+            /* when open, max-height is set by JS to the scrollHeight for smooth, content-sized expansion */
+        }
+        /* Modern flat button styles */
+        .main-buttons {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: stretch;
+        }
 
-        <a  class="nav-button" href="zapgams.html">
-            ZAP Games
-            <img class="index-button-image-zap" src="Zapgamesio-logo.svg" alt="ZAP Games Logo" class="logo-img_nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-        <a  class="nav-button" href="duckmath.html">
-            Duck Math
-            <img class="index-button-image" src="https://duckmath.org/assets/img/scaled_goose_pixel.png" alt="A-Z Games Logo" class="logo-img-nav" height="65" width="70">
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-        <a  class="nav-button" href="elytrafight.html">
-            Elytra Fight
-            <img class="index-button-image" src="data:image/webp;base64,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" alt="Elytra Fight Logo" class="logo-img-nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-         <a  class="nav-button" href="billybob.html">
-            Secret game...
-            <img class="index-button-image" src="https://thvnext.bing.com/th/id/OIP.d36Hf8yk7wIfvwPsqGeARQHaFb?w=264&h=194&c=7&r=0&o=7&cb=12&pid=1.7&rm=3&ucfimg=1" alt="Billy Bob Logo" class="logo-img-nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-        <a  class="nav-button" href="gamslol.html">
-            Games Lol
-            <img class="index-button-image" src="https://thvnext.bing.com/th/id/OIP.djbqLAlLWOKYj7R02h0s3AHaEo?w=260&h=180&c=7&r=0&o=7&cb=12&pid=1.7&rm=3&ucfimg=1" alt="Billy Bob Logo" class="logo-img-nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-        <a  class="nav-button" href="getfun.html">
-            Get Fun
-            <img class="index-button-image" src="https://www.getfun.online/img/logos/makefunLogo.png" alt="Billy Bob Logo" class="logo-img-nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-        <a  class="nav-button" href="poki.html">
-            Poki
-            <img class="index-button-image" src="https://thvnext.bing.com/th/id/OIP.ZPhBozlZZKjZfHI9uIPiHwHaD5?w=333&h=180&c=7&r=0&o=7&cb=12&pid=1.7&rm=3&ucfimg=1" alt="Billy Bob Logo" class="logo-img-nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-        <a  class="nav-button" href="kbhgams.html">
-            KBH Games
-            <img class="index-button-image" src="https://thvnext.bing.com/th/id/OIP.nQzZXJHwi9skPHFfGDx8ewAAAA?w=310&h=180&c=7&r=0&o=7&cb=12&pid=1.7&rm=3&ucfimg=1" alt="Billy Bob Logo" class="logo-img-nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-
-        <a  class="nav-button" href="hahagams.html">
-            Haha Games
-            <img class="index-button-image" src="https://thvnext.bing.com/th/id/OIP.eGGjHqmVv1qW9nKhXqUqfgHaFe?w=242&h=180&c=7&r=0&o=7&cb=12&pid=1.7&rm=3&ucfimg=1" alt="Haha Games Logo" class="logo-img-nav" height="65">
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-
-                <a  class="nav-button" href="minecraft.html">
-            Minecraft
-            <img class="index-button-image" src="https://thvnext.bing.com/th/id/OIP.FoWPt5fNONlX1p-iPsLWsAHaEK?w=316&h=180&c=7&r=0&o=7&cb=12&pid=1.7&rm=3&ucfimg=1" alt="Minecraft Logo" class="logo-img-nav" height="65" >
-            <div class="nav-extra"><code></code></div>
-        </a>
-
-                <a  class="nav-button" href="pro.html">
-            Proxy
-            <div class="nav-extra"><code></code></div>
-        </a>
-
+        .main-buttons .button {
+            flex: 1 1 0;
+            min-width: 220px;
+            max-width: 100%;
+            height: 100px;
+            /* Ensure text is centered vertically */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 48px;
+            margin: 10px;
+            color: #444;
+            text-decoration: none;
+            border-radius: 8px;
+            background: linear-gradient(180deg, #f6f7f9 0%, #e9edf2 100%);
+            box-shadow:
+                0 8px 0 #d1d7df,
+                0 10px 15px rgba(0,0,0,0.12),
+                inset 0 2px 0 rgba(255,255,255,0.85),
+                inset 0 -2px 0 rgba(0,0,0,0.06);
+            transition: transform 0.1s, box-shadow 0.1s, background 0.3s, color 0.3s;
+            font-size: 2em;
+            font-weight: 700;
+            border: none;
+            text-shadow: none;
+            position: relative;
+            cursor: pointer;
+        }
+        /* Remove .button-inner and move transform to .button:active */
+        .button:hover {
+            background: linear-gradient(180deg, #eef1f5 0%, #e2e7ee 100%);
+            box-shadow:
+                0 8px 0 #c8ced6,
+                0 12px 20px rgba(0,0,0,0.16),
+                inset 0 2px 0 rgba(255,255,255,0.9),
+                inset 0 -2px 0 rgba(0,0,0,0.08);
+        }
+        .button:active {
+            transform: translateY(4px);
+            box-shadow:
+                0 4px 0 #d1d7df,
+                0 6px 10px rgba(0,0,0,0.12),
+                inset 0 2px 0 rgba(255,255,255,0.85),
+                inset 0 -1px 0 rgba(0,0,0,0.06);
+        }
+        .feedback-button {
+            font-size: 0.8em;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: #e0e3e7;
+            color: #444;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            margin-top: 16px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            border: none;
+            opacity: 0.85;
+            transition: opacity 0.32s cubic-bezier(.2,.9,.2,1), color 0.32s cubic-bezier(.2,.9,.2,1);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            min-width: 160px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .feedback-button .embed {
+            display: none;
+            width: 640px;
+            max-height: 0;
+            min-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.32s cubic-bezier(.2,.9,.2,1), opacity 0.32s;
+        }
+        .feedback-button .embed iframe {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        .feedback-button .embed iframe::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        /* Light mode default text color inside the embed */
+        .feedback-button .embed { color: #333; }
+        .feedback-button.open {
+            padding: 12px 16px 16px 16px;
+        }
+        .feedback-button.open .embed {
+            display: block;
+            max-height: 850px;
+            min-height: 220px;
+            opacity: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .feedback-button .label {
+            display: inline-block;
+            width: auto;
+            text-align: center;
+            margin-bottom: 0;
+            font-weight: 600;
+            transition: margin-bottom 0.32s cubic-bezier(.2,.9,.2,1);
+            position: relative;
+            padding: 0 16px;
+        }
+        .feedback-button.open .label {
+            margin-bottom: 12px;
+        }
+        /* .feedback-button.open .label { opacity: 0; } -- removed so label always visible */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://didyougetherefromthebitlylink.neocities.org/goofballgames.png" alt="Goofball Games Logo" class="title-image">
+    <!-- The logo image above is used as the dark mode toggle -->
+    <h1 class="site-title">Goofball PIT</h1>
+        
+        <div class="about-section" style="text-align:center;">
+            <p class="alert-inline" id="copyShortlink">⚠️ USE/BOOKMARK "<span class="shortlink">bit.ly/goofballgames</span>" TO GET BACK HERE! ⚠️</p>
+            <div id="releaseCountdown" style="margin-bottom:12px;">
+                <div style="background: linear-gradient(135deg, #e3eaf7 0%, #b6cbe6 100%); border-radius: 18px; box-shadow: 0 4px 18px rgba(31,142,241,0.10); padding: 8px 12px; margin: 0 auto; max-width: 700px; text-align:center;">
+                    <div id="countdownTimer" style="font-family:'Mojangles', Arial, sans-serif; font-size:2.2em; font-weight:700; color:#111; background:rgba(255,255,255,0.7); border-radius:10px; padding:12px 0; box-shadow:0 2px 8px rgba(31,142,241,0.08); margin:0; width:100%; text-align:center; letter-spacing:2px;">BETA IS OUT</div>
+                </div>
             </div>
-        </nav>
-    
-</body>
-
-</html>
-
-<div id="copy-toast" class="copy-toast" role="status" aria-live="polite">Link copied to clipboard</div>
-
-<script src="copy.js"></script>
-<script src="favorites.js"></script>
-<script src="header-loader.js"></script>
-<script src="news-loader.js"></script>
-<script src="nav-vote.js"></script>
-
-<!-- Modal for adding custom game -->
-<div id="custom-game-modal" class="custom-game-modal" style="display: none;">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <h2>Add Your Own Game</h2>
-    <p>Enter the URL of the game you want to add:</p>
-    <input type="url" id="custom-game-url" placeholder="https://example.com/game" required>
-    <input type="text" id="custom-game-name" placeholder="Game Name (optional)" maxlength="30">
-    <button id="save-custom-game">Add Game</button>
-  </div>
-</div>
-
-<script src="custom-game.js"></script>
-
-<!-- Side panel: a vertical tab that slides open to reveal an iframe box -->
-<!-- You can set the iframe by adding data-src, data-width, data-height attributes to the .side-tab element below -->
-<div class="side-panel-wrapper" id="side-panel-wrapper">
-    <button class="side-tab" aria-controls="side-panel" aria-expanded="false" data-src="https://www3.cbox.ws/box/?boxid=3549713&boxtag=lnLJKb" allowtransparency="yes" data-width="640" data-height="400" title="Open side panel">
-        <!-- arrow icon -->
-        <svg viewBox="0 0 24 24" width="20" height="48" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
-    <div id="side-panel" class="side-drawer" role="complementary" aria-hidden="true">
-    <button class="side-close" aria-label="Close panel" title="Close">×</button>
-        <div class="side-iframe-wrap">
-            <iframe class="side-iframe" src="about:blank" frameborder="0" loading="lazy" title="Side panel content"></iframe>
         </div>
-        <div class="side-note" role="note">If this is abused imma' have to shut it down.</div>
+
+        <div class="button-container" style="margin-top: 0;">
+            <div class="main-buttons">
+                <!-- Replace the # with your actual redirect URLs -->
+                <a href="https://www.youlittlegoofball.site" class="button">Goofball Games V2</a>
+                <a href="https://www.youlittlegoofball.site/shop.html" class="button">Puffpaff Shop</a>
+            </div>
+        </div>
+
+        <div class="about-section" style="text-align:center;">
+            <div tabindex="0" class="explain-toggle" id="explainToggle" aria-expanded="false" role="button">
+                <span class="label">What is this?</span>
+                <span class="full">
+                  This site hosts a link to the most updated and un-bl0cked version of Goofball Games V2. You can always get back here by using the link “bit.ly/goofballgames” - if you want to bookmark it, use that URL.<br>
+                  <br>As well as Goofball Games, you can see what connor is selling in the puffpaff shop. Eventually, there will be a dedicated news section where you can see new releases or coupons, but right now, everything's in beta. The shop site is just a menu/catalog, so if you want to buy something talk to connor in person.<br>
+                  <br><img src="https://png.pngtree.com/png-clipart/20230810/original/pngtree-cartoon-monument-with-ancient-inscription-and-rest-in-peace-text-on-gravestone-vector-picture-image_10227408.png" alt="Gravestone" style="max-width:200px;height:auto;margin:10px 0;border-radius:8px;"><br>
+                  Background:
+The district blocked connor from editing the og goofball games. So Connor and I have been working on an updated version, Goofball Games V2. So if you know any goof addicts, tell them the news. The beta is out now. Please leave your feedback and suggestions so we can make it better - there is a feedback button on the site. RIP Goofball games 😘✌️</span>
+            </div>
+        </div>
+        
+        <!-- Feedback/blocked toggle moved near credits -->
+        <div style="text-align:center; margin-top: 8px; margin-bottom: 4px;">
+            <div tabindex="0" class="feedback-toggle feedback-button" id="feedbackToggle" aria-expanded="false" role="button" style="cursor:pointer; display:inline-flex;">
+                <span class="label">Is the site blocked?</span>
+                <span class="embed" style="display:none;">
+                    <iframe width="640" height="800" src="https://docs.google.com/forms/d/e/1FAIpQLSe6kAUk1QSXo-KNehrqH8Ki-9RCMJtirQ52Bs0U4oJ4KsJ7hw/viewform?embedded=true" frameborder="0" style="margin-top:10px;border-radius:8px;pointer-events:auto;">Loading…</iframe>
+                </span>
+            </div>
+        </div>
+
+        <div style="text-align: center; font-size: 0.7em; color: #999; padding: 12px 0; margin-top: 2px;">
+            <a href="https://www.youtube.com/@PuffpaffShop" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Made by Connor and Ethan</a>
+        </div>
     </div>
-</div>
+    <script>
+        // Countdown replaced with static message
+        (function(){
+            const el = document.getElementById('countdownTimer');
+            if (el) {
+                el.textContent = 'BETA IS OUT';
+            }
+        })();
 
-<script src="sidepanel.js"></script>
+        // Dark mode toggle on logo click
+        (function(){
+            const logo = document.querySelector('.title-image');
+            if (!logo) return;
+            logo.style.cursor = 'pointer';
+            logo.title = 'Goof?';
+            logo.addEventListener('click', function() {
+                // Temporarily disable box-shadow animation during theme switch
+                document.body.classList.add('theme-switch');
+                document.body.classList.toggle('dark-mode');
+                // Optionally, save preference
+                if (window.localStorage) {
+                    if (document.body.classList.contains('dark-mode')) {
+                        localStorage.setItem('goofball-dark', '1');
+                    } else {
+                        localStorage.removeItem('goofball-dark');
+                    }
+                }
+                // Remove the theme-switch class after transitions complete
+                setTimeout(() => document.body.classList.remove('theme-switch'), 350);
+            });
+            // On load, restore preference
+            if (window.localStorage && localStorage.getItem('goofball-dark')) {
+                document.body.classList.add('dark-mode');
+            }
+        })();
+        (function(){
+            const toggle = document.getElementById('explainToggle');
+            if (!toggle) return;
+            const label = toggle.querySelector('.label');
+            const full = toggle.querySelector('.full');
+            function setOpen(open){
+                toggle.classList.toggle('open', open);
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                if (open) {
+                    // set max-height to content height for smooth expansion
+                    full.style.maxHeight = full.scrollHeight + 'px';
+                } else {
+                    full.style.maxHeight = '0px';
+                }
+            }
+            toggle.addEventListener('click', ()=> setOpen(!toggle.classList.contains('open')));
+            toggle.addEventListener('keydown', (e)=>{
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setOpen(!toggle.classList.contains('open'));
+                }
+            });
+        })();
+    </script>
+        <script>
+            (function(){
+                const container = document.getElementById('copyShortlink');
+                if (!container) return;
+                const shortlink = 'https://bit.ly/goofballgames';
 
+                // Make the container behave like a button for accessibility
+                container.setAttribute('role', 'button');
+                container.setAttribute('tabindex', '0');
+                container.setAttribute('aria-label', 'Copy bit.ly slash goofballgames to clipboard');
+                container.style.cursor = 'pointer';
 
+                // Create floating tooltip that follows cursor
+                const tooltip = document.createElement('div');
+                tooltip.className = 'copy-tooltip';
+                tooltip.style.position = 'fixed';
+                tooltip.style.padding = '6px 12px';
+                tooltip.style.borderRadius = '6px';
+                tooltip.style.fontSize = '0.9em';
+                tooltip.style.fontWeight = '700';
+                tooltip.style.pointerEvents = 'none';
+                tooltip.style.zIndex = '10000';
+                tooltip.style.opacity = '0';
+                tooltip.style.transition = 'opacity 0.18s ease, background 0.3s, color 0.3s';
+                tooltip.style.transform = 'translate(-50%, -120%)';
+                tooltip.style.whiteSpace = 'nowrap';
+                document.body.appendChild(tooltip);
+
+                // Function to update tooltip colors based on theme
+                function updateTooltipTheme(){
+                    const isDark = document.body.classList.contains('dark-mode');
+                    tooltip.style.background = isDark ? '#3a3a3a' : 'linear-gradient(180deg, #f6f7f9 0%, #e9edf2 100%)';
+                    tooltip.style.color = isDark ? '#e0e0e0' : '#444';
+                    tooltip.style.boxShadow = isDark ? '0 2px 8px rgba(0,0,0,0.5)' : '0 4px 12px rgba(0,0,0,0.15)';
+                }
+                updateTooltipTheme();
+
+                // Watch for theme changes (when logo is clicked)
+                const observer = new MutationObserver(() => updateTooltipTheme());
+                observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+                let timeoutId = null;
+                let mouseX = 0, mouseY = 0;
+
+                // Track mouse position
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                function showTooltip(text, x, y){
+                    if (timeoutId) { clearTimeout(timeoutId); timeoutId = null; }
+                    tooltip.textContent = text;
+                    tooltip.style.left = x + 'px';
+                    tooltip.style.top = y + 'px';
+                    tooltip.style.opacity = '1';
+                    timeoutId = setTimeout(()=>{
+                        tooltip.style.opacity = '0';
+                    }, 1400);
+                }
+
+                async function copyToClipboard(event){
+                    // Get click position (or use last known mouse position for keyboard)
+                    const x = event.clientX || mouseX;
+                    const y = event.clientY || mouseY;
+
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            await navigator.clipboard.writeText(shortlink);
+                        } else {
+                            // Fallback method
+                            const ta = document.createElement('textarea');
+                            ta.value = shortlink;
+                            // Move off-screen
+                            ta.style.position = 'fixed';
+                            ta.style.left = '-9999px';
+                            document.body.appendChild(ta);
+                            ta.select();
+                            const ok = document.execCommand('copy');
+                            document.body.removeChild(ta);
+                            if (!ok) throw new Error('execCommand failed');
+                        }
+                        showTooltip('Copied!', x, y);
+                    } catch (err) {
+                        // If it fails, prompt the user with the link so they can copy manually
+                        showTooltip('Copy failed', x, y);
+                        // As a courtesy, open a prompt with the text selected
+                        const manual = prompt('Copy this link:', shortlink);
+                        if (manual !== null) {
+                            try { await navigator.clipboard.writeText(shortlink); showTooltip('Copied!', x, y); } catch(e){}
+                        }
+                    }
+                }
+
+                container.addEventListener('click', copyToClipboard);
+                container.addEventListener('keydown', (e)=>{
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        copyToClipboard(e);
+                    }
+                });
+            })();
+        </script>
+    <script>
+        (function(){
+            const toggle = document.getElementById('feedbackToggle');
+            if (!toggle) return;
+            const label = toggle.querySelector('.label');
+            const embed = toggle.querySelector('.embed');
+            function setOpen(open){
+                toggle.classList.toggle('open', open);
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                if (open) {
+                    embed.style.display = 'block';
+                    // Wait for display:block to apply, then animate to full height
+                    setTimeout(() => {
+                        embed.style.maxHeight = embed.scrollHeight + 'px';
+                        embed.style.opacity = '1';
+                    }, 10);
+                } else {
+                    embed.style.maxHeight = '0px';
+                    embed.style.opacity = '0';
+                    setTimeout(()=>{embed.style.display='none';}, 320);
+                }
+            }
+            toggle.addEventListener('click', ()=> setOpen(!toggle.classList.contains('open')));
+            toggle.addEventListener('keydown', (e)=>{
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setOpen(!toggle.classList.contains('open'));
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
